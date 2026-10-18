@@ -1,0 +1,283 @@
+{
+  "criada": "2026-10-16T19:24:18.387Z",
+  "fornecedor": "openrouter:openai/gpt-5.4-image-2",
+  "corrigida": true,
+  "verificacao": {
+    "retry": true,
+    "issues": [
+      "O logótipo ficou demasiado perto da aresta (cerca de 1% da largura). Entre ele e a aresta mais próxima tem de ficar um espaço maior do que a altura do próprio logótipo, como no esboço.",
+      "Há conteúdo cortado pela aresta da imagem (O contacto no rodapé está cortado pela aresta inferior.). Tudo tem de caber dentro da margem.",
+      "O contacto «www.kianda.ao» não se lê bem (Está cortado pela aresta inferior.). Tem de ficar inteiro, maior e com contraste, acima da margem de baixo e longe da aresta.",
+      "O logótipo ficou grande (cerca de 28% da largura). O tamanho pedido era o do esboço, mais discreto."
+    ],
+    "score": 7
+  },
+  "proposta": {
+    "fornecedor": "openrouter:openai/gpt-5.4",
+    "estilo": "elegante",
+    "textos": {
+      "headline": "Chegou o novo perfume Kianda",
+      "subheadline": "Noite de Luanda, uma fragrância de autor.",
+      "cta": "Descobre já"
+    },
+    "revisao": "Editado na revisão, como faria o cliente: o texto de apoio repetia o website, que já vai nos contactos; a disposição é a do esboço da secção (logótipo em cima à esquerda, título no topo, o frasco ao centro, o botão e o website por baixo), e por isso a composição livre da proposta saiu e a cena ficou com o frasco ao centro.",
+    "logotipo": {
+      "tamanho": "grande",
+      "posicao": "superior-esquerdo"
+    },
+    "disposicao": {
+      "label": "Título no topo",
+      "zones": [
+        "Imagem protagonista: ao centro, a meio da arte — cerca de 42% da largura e 36% da altura da arte.",
+        "Título: ao centro, no topo, centrado, em 2 linhas. É o maior texto da arte.",
+        "Texto de apoio: logo por baixo do título, com o mesmo alinhamento.",
+        "Botão: por baixo da imagem protagonista, centrado.",
+        "Logótipo: no canto de cima, à esquerda, com cerca de 17% da largura — uma assinatura discreta, nunca maior do que isso — e com folga às arestas: pelo menos 8% da largura até cada aresta. Nunca encostado a uma aresta.",
+        "Contactos: por baixo do botão, no mesmo bloco e com o mesmo alinhamento do texto, numa linha, em letra pequena mas legível. Não descem para a aresta de baixo: são a última linha do texto, logo a seguir ao botão.",
+        "Distâncias às arestas DA IMAGEM QUE DESENHAS: o logótipo começa a 10% da altura, a contar da aresta de cima, e o título logo abaixo dele; a base da última linha de texto fica a 17% da altura acima da aresta de baixo; nenhum texto fica a menos de 9% da largura das arestas dos lados. Daí até às arestas continua só a cena, sem nada escrito por cima."
+      ]
+    },
+    "direccao": {
+      "id": "dir_3f2t6d1t1i6m1c4z14",
+      "idea": "O perfume é apresentado como o clima sofisticado de uma noite em Luanda.",
+      "approach": "cena-conceptual",
+      "scene": "O frasco real do Noite de Luanda aparece em primeiro plano sobre uma superfície espelhada escura, com reflexo contido. Ao fundo, formas abstractas inspiradas na linha costeira e nas luzes difusas da cidade criam uma noite elegante sem mostrar uma paisagem literal. Uma faixa de tecido creme cruza o lado inferior e conduz o olhar até ao produto. A câmara está ligeiramente aproximada, com o frasco ao centro. A luz principal vem de trás e de lado para acender a tampa e o contorno do vidro, enquanto pequenos reflexos quentes sugerem luz urbana distante.",
+      "focus": "O frasco inserido num ambiente que evoca a noite de Luanda",
+      "hierarchy": "Frasco, headline, subtítulo e website",
+      "composition": "",
+      "lighting": "Luz mais dramática mas controlada, com recorte quente e reflexos nocturnos discretos.",
+      "materials": "Superfície espelhada escura, tecido mate-creme, vidro e metal do frasco, fundos desfocados luminosos.",
+      "brandApplication": "A cor de base segue o azul escuro da marca para reforçar a noite, o creme equilibra a sofisticação e o laranja médio entra nos pequenos pontos de destaque. A tipografia mantém-se elegante e limpa para não competir com a cena.",
+      "rationale": "Liga o nome do perfume a uma atmosfera memorável e própria da marca.",
+      "graphics": "A fotografia do produto assenta integrada numa cena inteira, com o texto pousado numa área calma do fundo. Um arco subtil na cor de realce nasce por trás do frasco e conduz o olhar até ao bloco de texto. O CTA aparece dentro de uma pequena faixa creme para se destacar sem pesar.",
+      "layout": "texto-direita",
+      "subject": "cena",
+      "techniques": [
+        "metafora-visual",
+        "movimento-implicito",
+        "profundidade-por-sobreposicao",
+        "iluminacao-dramatica"
+      ],
+      "textDensity": "baixa",
+      "elementDensity": "media"
+    },
+    "referencias": [
+      {
+        "referenceId": "ref7",
+        "take": [
+          "conceito visual ligado à mensagem",
+          "integração entre objectos",
+          "materiais realistas",
+          "sombras e iluminação coerentes"
+        ],
+        "doNotTransfer": [
+          "a bandeja",
+          "a tampa",
+          "as luvas",
+          "os cartões",
+          "os jogos",
+          "as marcas",
+          "as luzes azuis",
+          "as posições"
+        ],
+        "mode": "imagem",
+        "why": "18 pontos — técnicas da ideia: metafora visual, movimento implicito, profundidade por sobreposicao, iluminacao dramatica; mesmo protagonista (cena)"
+      },
+      {
+        "referenceId": "ref2",
+        "take": [
+          "ligação entre a mensagem e uma metáfora",
+          "um ponto de atenção reconhecível",
+          "espaço livre para texto",
+          "materiais e sombras coerentes"
+        ],
+        "doNotTransfer": [
+          "o tabuleiro",
+          "o jogo do galo",
+          "a mão",
+          "as formas geométricas das peças",
+          "a quantidade de peças",
+          "as marcas de serviços de streaming",
+          "as posições dos elementos"
+        ],
+        "mode": "descricao",
+        "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, profundidade por sobreposicao; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+      },
+      {
+        "referenceId": "ref6",
+        "take": [
+          "uma ideia central fácil de reconhecer",
+          "poucos elementos principais",
+          "equilíbrio entre dois participantes",
+          "luz a reforçar o ponto de ligação"
+        ],
+        "doNotTransfer": [
+          "as mãos",
+          "as peças de puzzle",
+          "as bandeiras",
+          "o mapa",
+          "os países",
+          "as marcas",
+          "qualquer afirmação de parceria"
+        ],
+        "mode": "imagem",
+        "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, iluminacao dramatica; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+      }
+    ],
+    "aviso": null
+  },
+  "pedido": {
+    "direction": {
+      "id": "dir_3f2t6d1t1i6m1c4z14",
+      "idea": "O perfume é apresentado como o clima sofisticado de uma noite em Luanda.",
+      "approach": "cena-conceptual",
+      "scene": "O frasco real do Noite de Luanda aparece em primeiro plano sobre uma superfície espelhada escura, com reflexo contido. Ao fundo, formas abstractas inspiradas na linha costeira e nas luzes difusas da cidade criam uma noite elegante sem mostrar uma paisagem literal. Uma faixa de tecido creme cruza o lado inferior e conduz o olhar até ao produto. A câmara está ligeiramente aproximada, com o frasco ao centro. A luz principal vem de trás e de lado para acender a tampa e o contorno do vidro, enquanto pequenos reflexos quentes sugerem luz urbana distante.",
+      "focus": "O frasco inserido num ambiente que evoca a noite de Luanda",
+      "hierarchy": "Frasco, headline, subtítulo e website",
+      "composition": "",
+      "lighting": "Luz mais dramática mas controlada, com recorte quente e reflexos nocturnos discretos.",
+      "materials": "Superfície espelhada escura, tecido mate-creme, vidro e metal do frasco, fundos desfocados luminosos.",
+      "brandApplication": "A cor de base segue o azul escuro da marca para reforçar a noite, o creme equilibra a sofisticação e o laranja médio entra nos pequenos pontos de destaque. A tipografia mantém-se elegante e limpa para não competir com a cena.",
+      "rationale": "Liga o nome do perfume a uma atmosfera memorável e própria da marca.",
+      "graphics": "A fotografia do produto assenta integrada numa cena inteira, com o texto pousado numa área calma do fundo. Um arco subtil na cor de realce nasce por trás do frasco e conduz o olhar até ao bloco de texto. O CTA aparece dentro de uma pequena faixa creme para se destacar sem pesar.",
+      "layout": "texto-direita",
+      "subject": "cena",
+      "techniques": [
+        "metafora-visual",
+        "movimento-implicito",
+        "profundidade-por-sobreposicao",
+        "iluminacao-dramatica"
+      ],
+      "textDensity": "baixa",
+      "elementDensity": "media"
+    },
+    "layout": {
+      "label": "Título no topo",
+      "zones": [
+        "Imagem protagonista: ao centro, a meio da arte — cerca de 42% da largura e 36% da altura da arte.",
+        "Título: ao centro, no topo, centrado, em 2 linhas. É o maior texto da arte.",
+        "Texto de apoio: logo por baixo do título, com o mesmo alinhamento.",
+        "Botão: por baixo da imagem protagonista, centrado.",
+        "Logótipo: no canto de cima, à esquerda, com cerca de 17% da largura — uma assinatura discreta, nunca maior do que isso — e com folga às arestas: pelo menos 8% da largura até cada aresta. Nunca encostado a uma aresta.",
+        "Contactos: por baixo do botão, no mesmo bloco e com o mesmo alinhamento do texto, numa linha, em letra pequena mas legível. Não descem para a aresta de baixo: são a última linha do texto, logo a seguir ao botão.",
+        "Distâncias às arestas DA IMAGEM QUE DESENHAS: o logótipo começa a 10% da altura, a contar da aresta de cima, e o título logo abaixo dele; a base da última linha de texto fica a 17% da altura acima da aresta de baixo; nenhum texto fica a menos de 9% da largura das arestas dos lados. Daí até às arestas continua só a cena, sem nada escrito por cima."
+      ]
+    },
+    "referenceUsage": [
+      {
+        "referenceId": "ref7",
+        "take": [
+          "conceito visual ligado à mensagem",
+          "integração entre objectos",
+          "materiais realistas",
+          "sombras e iluminação coerentes"
+        ],
+        "doNotTransfer": [
+          "a bandeja",
+          "a tampa",
+          "as luvas",
+          "os cartões",
+          "os jogos",
+          "as marcas",
+          "as luzes azuis",
+          "as posições"
+        ],
+        "mode": "imagem",
+        "why": "18 pontos — técnicas da ideia: metafora visual, movimento implicito, profundidade por sobreposicao, iluminacao dramatica; mesmo protagonista (cena)"
+      },
+      {
+        "referenceId": "ref2",
+        "take": [
+          "ligação entre a mensagem e uma metáfora",
+          "um ponto de atenção reconhecível",
+          "espaço livre para texto",
+          "materiais e sombras coerentes"
+        ],
+        "doNotTransfer": [
+          "o tabuleiro",
+          "o jogo do galo",
+          "a mão",
+          "as formas geométricas das peças",
+          "a quantidade de peças",
+          "as marcas de serviços de streaming",
+          "as posições dos elementos"
+        ],
+        "mode": "descricao",
+        "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, profundidade por sobreposicao; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+      },
+      {
+        "referenceId": "ref6",
+        "take": [
+          "uma ideia central fácil de reconhecer",
+          "poucos elementos principais",
+          "equilíbrio entre dois participantes",
+          "luz a reforçar o ponto de ligação"
+        ],
+        "doNotTransfer": [
+          "as mãos",
+          "as peças de puzzle",
+          "as bandeiras",
+          "o mapa",
+          "os países",
+          "as marcas",
+          "qualquer afirmação de parceria"
+        ],
+        "mode": "imagem",
+        "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, iluminacao dramatica; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+      }
+    ],
+    "format": "vertical",
+    "style": "elegante",
+    "company": "Perfumaria Kianda",
+    "segment": "lojas",
+    "colors": {
+      "primary": "#152A4A",
+      "secondary": "#E7DCC8",
+      "accent": "#C98A3C"
+    },
+    "base": "primaria",
+    "logoSize": "grande",
+    "contactsPlacement": "texto",
+    "typography": {
+      "display": "Playfair Display",
+      "body": "Inter",
+      "displayKind": "serif",
+      "bodyKind": "sans"
+    },
+    "texts": {
+      "headline": "Chegou o novo perfume Kianda",
+      "subheadline": "Noite de Luanda, uma fragrância de autor.",
+      "cta": "Descobre já",
+      "badge": "",
+      "price": ""
+    },
+    "items": [
+      {
+        "name": "Noite de Luanda · 50 ml",
+        "highlighted": true,
+        "hasImage": true
+      }
+    ],
+    "drawLogo": true,
+    "contacts": [
+      {
+        "label": "Website",
+        "value": "www.kianda.ao"
+      }
+    ],
+    "guidelines": null,
+    "brandStyle": null,
+    "memory": [],
+    "references": [
+      {
+        "role": "logotipo",
+        "label": "logótipo da Perfumaria Kianda"
+      },
+      {
+        "role": "produto",
+        "label": "Noite de Luanda · 50 ml"
+      }
+    ]
+  },
+  "prompt": "Publicação profissional para redes sociais, formato vertical 4:5, para feed de Instagram e Facebook.\n\nCORRECÇÃO OBRIGATÓRIA — a tentativa anterior desta arte falhou nestes pontos, e esta tem de os resolver:\n· O logótipo ficou cortado ou encostado à aresta. Tem de ficar inteiro, no sítio e à distância das arestas que o esboço mostra.\n· Há conteúdo cortado pela aresta da imagem (O logótipo no canto superior esquerdo está cortado em cima; o contacto no rodapé está cortado em baixo.). Tudo tem de caber dentro da margem.\n· O contacto «www.kianda.ao» não se lê bem (Vê-se «www.kianda.ao», mas está cortado pela aresta inferior.). Tem de ficar inteiro, maior e com contraste, acima da margem de baixo e longe da aresta.\n· A arte mostra um preço ou uma moeda que não foram pedidos (No rótulo do frasco aparece «50 ML».). Tira-o: nenhum valor além do da lista de texto, nem dentro de um ecrã.\nMantém a mesma ideia, os mesmos textos e os mesmos produtos. Muda só o que for preciso para corrigir isto.\n\nIDEIA DESTA PUBLICAÇÃO\nO perfume é apresentado como o clima sofisticado de uma noite em Luanda.\n\nCENA\nO frasco real do Noite de Luanda aparece em primeiro plano sobre uma superfície espelhada escura, com reflexo contido. Ao fundo, formas abstractas inspiradas na linha costeira e nas luzes difusas da cidade criam uma noite elegante sem mostrar uma paisagem literal. Uma faixa de tecido creme cruza o lado inferior e conduz o olhar até ao produto. A câmara está ligeiramente aproximada, com o frasco ao centro. A luz principal vem de trás e de lado para acender a tampa e o contorno do vidro, enquanto pequenos reflexos quentes sugerem luz urbana distante.\nElemento principal: O frasco inserido num ambiente que evoca a noite de Luanda.\nMateriais: Superfície espelhada escura, tecido mate-creme, vidro e metal do frasco, fundos desfocados luminosos.\nIluminação: Luz mais dramática mas controlada, com recorte quente e reflexos nocturnos discretos.\n\nCOMPOSIÇÃO\nA composição é desta publicação. Não a importes de nenhuma imagem anexada.\n\nDISPOSIÇÃO APROVADA — Título no topo\nO cliente aprovou esta disposição. Cumpre-a, zona a zona:\n· Imagem protagonista: ao centro, a meio da arte — cerca de 42% da largura e 36% da altura da arte.\n· Título: ao centro, no topo, centrado, em 2 linhas. É o maior texto da arte.\n· Texto de apoio: logo por baixo do título, com o mesmo alinhamento.\n· Botão: por baixo da imagem protagonista, centrado.\n· Logótipo: no canto de cima, à esquerda, com cerca de 17% da largura — uma assinatura discreta, nunca maior do que isso — e com folga às arestas: pelo menos 8% da largura até cada aresta. Nunca encostado a uma aresta.\n· Contactos: por baixo do botão, no mesmo bloco e com o mesmo alinhamento do texto, numa linha, em letra pequena mas legível. Não descem para a aresta de baixo: são a última linha do texto, logo a seguir ao botão.\n· Distâncias às arestas DA IMAGEM QUE DESENHAS: o logótipo começa a 10% da altura, a contar da aresta de cima, e o título logo abaixo dele; a base da última linha de texto fica a 17% da altura acima da aresta de baixo; nenhum texto fica a menos de 9% da largura das arestas dos lados. Daí até às arestas continua só a cena, sem nada escrito por cima.\n\nESTILO\nTipografia cuidada, composição equilibrada, materiais e luz sofisticados, detalhes discretos. Não exige preto e dourado: a sofisticação vem do cuidado, não da cor.\n\nNÍVEL DE ACABAMENTO — publicidade de agência, ao nível dos exemplos de direcção artística anexados:\n· Um protagonista fotográfico (ou 3D fotorrealista) com presença forte: a pessoa, o produto ou o dispositivo da cena acima.\n· Volume e profundidade: planos de foco, sombras de contacto e sobreposições — também quando o protagonista vai recortado sobre a cor de base.\n· Luz desenhada: luz principal, luz de recorte nos contornos e reflexos coerentes com a cor de base.\n· Nunca um cartaz só de texto sobre um fundo de cor lisa, e nunca uma fotografia com o texto simplesmente pousado por cima.\n\nDESIGN DA PEÇA — um anúncio desenhado, não uma fotografia com texto por cima\nRecursos de design desta ideia: A fotografia do produto assenta integrada numa cena inteira, com o texto pousado numa área calma do fundo. Um arco subtil na cor de realce nasce por trás do frasco e conduz o olhar até ao bloco de texto. O CTA aparece dentro de uma pequena faixa creme para se destacar sem pesar.\n· A fotografia, as formas e o texto são UMA composição: as formas passam por trás e à frente do protagonista, o título encosta-se à imagem, o botão continua uma linha ou uma forma. Nada parece colado por cima.\n· Formas geométricas e limpas, nas cores da marca, cada uma com uma função — agrupar, ligar, enquadrar ou conduzir o olhar. Duas ou três, nunca um amontoado.\n· Hierarquia que se lê em três segundos: o título, o protagonista e só depois o resto. O título grande e confiante; o texto de apoio claramente menor; o logótipo pequeno, como uma assinatura.\n· O design cabe na disposição aprovada: as formas podem passar por trás do texto e do protagonista, mas não mudam onde cada coisa fica.\n\nNegócio: Perfumaria Kianda (lojas).\nCORES DESTA ARTE\n· Cor de base: azul escuro — pinta o fundo e as grandes áreas de design. É a cor que domina a arte.\n· Cor de realce: creme — nas formas gráficas, no botão, numa palavra destacada e nos pequenos detalhes.\n· A outra cor da marca, laranja médio, pode entrar com moderação, num detalhe.\n· O texto vai na cor de realce ou no tom — claro ou escuro — que melhor se lê sobre o fundo onde assenta.\n· A FOTOGRAFIA mantém as cores naturais — pele, materiais, produtos e luz —, afinadas para combinar com a cor de base. Nunca pintada com as cores da marca, nunca dessaturada. Os PRODUTOS mantêm as cores próprias, coerentes com o que são e com o nome que têm.\nAs cores servem para pintar a arte. Nunca as escrevas, nem mostres amostras, nem etiquetas de cor.\nAplicação da identidade nesta arte: A cor de base segue o azul escuro da marca para reforçar a noite, o creme equilibra a sofisticação e o laranja médio entra nos pequenos pontos de destaque. A tipografia mantém-se elegante e limpa para não competir com a cena.\n\nPRODUTOS NA CENA\n· Em primeiro plano, claramente a escolha principal: \"Noite de Luanda · 50 ml\".\nCada produto é um objecto real e fotográfico na cena, com volume, material e sombra própria. Não são formas geométricas planas nem ícones.\n\nTEXTO A COMPOR NA ARTE\nEscreve exactamente estas palavras, em português, com os acentos tal como estão. Não acrescentes texto nenhum que não esteja nesta lista.\n· Título, o maior elemento de texto: \"Chegou o novo perfume Kianda\"\n· Texto de apoio: \"Noite de Luanda, uma fragrância de autor.\"\n· Chamada para acção, dentro de um botão: \"Descobre já\"\n\nCONTACTOS — obrigatórios, fazem parte da arte\nEscreve-os TODOS, por inteiro, e copia cada valor carácter por carácter:\n· Website: \"www.kianda.ao\"\nFicam onde o esboço os põe: logo por baixo do botão, com o mesmo alinhamento do texto, como a última linha do bloco de texto. Não descem para a parte de baixo da arte.\nLegíveis num telemóvel: letra do tamanho do texto de apoio ou pouco menor, nunca minúscula, com contraste forte sobre uma zona calma da imagem.\nO website (\"www.kianda.ao\") é onde o cliente compra ou fala com a empresa: tem de se ler à primeira.\n\nTIPOGRAFIA\n· Título numa letra serifada como a Playfair Display; texto de apoio, botão e contactos numa sem serifa como a Inter.\n· Hierarquia clara, espaçamento generoso, alinhamento consistente; o texto lê-se sem esforço.\n· Podes destacar UMA palavra do título — na cor de realce ou com mais peso — sem mudar nenhuma letra nem a ordem das palavras.\n\nECRÃS E PREÇOS\n· Num ecrã da cena (telemóvel, portátil, televisão) só aparecem os logótipos dos serviços anunciados, imagens do serviço ou a captura de ecrã anexada, com interface mínima. Nada de texto pequeno inventado.\n· Os objectos que a cena acrescenta — cartões, sacos, caixas, embalagens — têm superfícies lisas, numa cor da marca. Cada produto anexado mantém o rótulo que tem na fotografia, tal como está.\n· Esta arte não tem preço. Não escrevas nenhum valor, percentagem nem moeda — nem dentro de um ecrã.\n\nMARCA — O LOGÓTIPO É A IMAGEM 1\nA primeira imagem anexada é o logótipo real e registado desta empresa. Aplica-o na arte como se fosse colado do ficheiro: uma cópia exacta, não uma interpretação.\nO texto do logótipo é exactamente «KIANDA PERFUMARIA» — lê-se K · I · A · N · D · A · P · E · R · F · U · M · A · R · I · A, da esquerda para a direita. Nenhuma letra a mais, nenhuma a menos, nenhuma trocada de lugar.\nElementos gráficos do logótipo: ícone de gota à esquerda do texto; faixa ondulada preta com uma faixa dourada por baixo a atravessar a parte inferior da gota.\nDescrição do logótipo: Logótipo horizontal com a palavra “KIANDA” em maiúsculas grandes, com serifa elegante de alto contraste, em tom marfim. Por baixo, “PERFUMARIA” aparece em maiúsculas mais pequenas, espaçadas, em dourado; a gota à esquerda é em tom marfim com o elemento ondulado preto e dourado na base.\n· Mesmas formas, mesmas proporções, mesmas cores, mesmos pesos de traço do ficheiro.\n· NUNCA espelhado, invertido, rodado nem em perspectiva.\n· NÃO o redesenhes, NÃO o simplifiques, NÃO o modernizes, NÃO o completes.\n· NÃO lhe acrescentes o nome da empresa por baixo nem ao lado.\n· NÃO lhe mudes a cor. É a cena que se organiza em volta dele.\n\nAPLICAÇÃO DO LOGÓTIPO — cumpre à risca:\n· Plano e de frente, como impressão gráfica sobre a arte. Sem relevo, sem sombra projectada, sem brilho, sem textura por cima, sem o colocar dentro de um objecto da cena.\n· Tamanho: o do esboço aprovado — uma assinatura, nunca mais de 18% da largura da arte nem maior do que o título. Pequeno, mas com cada letra nítida.\n· O logótipo é CLARO: assenta numa zona ESCURA e uniforme da arte, para se ler sem esforço.\n· Dentro das margens da regra MARGEM, inteiro, sem tocar na aresta, longe do título e de qualquer outro texto. Nunca sobreposto a texto nem a uma zona de muito detalhe.\n· Posição e tamanho: os do esboço aprovado (ver DISPOSIÇÃO APROVADA). Entre o logótipo e a aresta mais próxima fica sempre um espaço maior do que a altura do próprio logótipo.\n\nRepito, porque é o erro mais comum: o logótipo é uma cópia fiel da imagem 1.\n\nREFERÊNCIAS DE QUALIDADE VISUAL\nAs referências abaixo demonstram acabamento profissional. Aproveitas as qualidades indicadas e mais nada.\n· Aproveitar: ligação entre a mensagem e uma metáfora; um ponto de atenção reconhecível; espaço livre para texto; materiais e sombras coerentes.\n· NÃO transferir para esta arte: o tabuleiro, o jogo do galo, a mão, as formas geométricas das peças, a quantidade de peças, as marcas de serviços de streaming, as posições dos elementos.\nNenhuma destas referências define o conteúdo, a cena nem a composição desta publicação. O conteúdo vem da ideia e dos produtos acima.\n\nIMAGENS ANEXADAS — o papel de cada uma\n1. LOGÓTIPO REAL E REGISTADO de Perfumaria Kianda. Reproduz exactamente esta forma e estas cores na arte. Não é uma sugestão de estilo nem um ponto de partida: é o logótipo, e tem de sair igual.\n2. Imagem do cliente — \"Noite de Luanda · 50 ml\". Material real, que entra na arte: um produto aparece com a embalagem, a cor e a forma reais; uma captura de ecrã de um site ou de uma aplicação aparece no ecrã de um dispositivo da cena (telemóvel, portátil, televisão), fiel ao que lá está.\n3. EXEMPLO DE DIRECÇÃO ARTÍSTICA — o nível e a linguagem gráfica que esta arte tem de atingir: como a fotografia, as formas e a tipografia se combinam numa peça desenhada, a luz e o acabamento. Aproveita: conceito visual ligado à mensagem; integração entre objectos; materiais realistas; sombras e iluminação coerentes. NÃO copies desta imagem: a bandeja, a tampa, as luvas, os cartões, os jogos, as marcas, as luzes azuis, as posições. Segue essa linguagem gráfica; a disposição vem desta ideia e o conteúdo vem desta publicação. As palavras, os números e as marcas escritos nesta imagem não são texto desta arte, nem em rótulos nem em ecrãs. Nada do conteúdo dela — pessoas, produtos, cena, textos — entra nesta publicação.\n4. EXEMPLO DE DIRECÇÃO ARTÍSTICA — o nível e a linguagem gráfica que esta arte tem de atingir: como a fotografia, as formas e a tipografia se combinam numa peça desenhada, a luz e o acabamento. Aproveita: uma ideia central fácil de reconhecer; poucos elementos principais; equilíbrio entre dois participantes; luz a reforçar o ponto de ligação. NÃO copies desta imagem: as mãos, as peças de puzzle, as bandeiras, o mapa, os países, as marcas, qualquer afirmação de parceria. Segue essa linguagem gráfica; a disposição vem desta ideia e o conteúdo vem desta publicação. As palavras, os números e as marcas escritos nesta imagem não são texto desta arte, nem em rótulos nem em ecrãs. Nada do conteúdo dela — pessoas, produtos, cena, textos — entra nesta publicação.\nCom mais de um exemplo de direcção artística: de cada um aproveita só o que está indicado ao lado dele. A arte segue UMA linguagem visual coerente — a desta ideia —, não uma mistura de linguagens.\n\nMARGEM — regra de acabamento\nReserva uma margem livre de 11% da altura em cima e em baixo, e de 10% da largura de cada lado. Nada de texto, de logótipo, de contactos, de botão ou de produto entra nessas margens.\nA cena e o fundo continuam até às arestas; a margem só afasta o conteúdo delas.\nNenhum elemento é cortado pela aresta da imagem. Se algo não cabe dentro da margem, reduz o tamanho desse elemento em vez de o deixar sair da moldura.\nO logótipo fica inteiro e com folga em volta: a assinatura de uma marca cortada ao meio é um erro de produção, não um enquadramento ousado.\n\nREGRAS\n· Uma peça única e integrada: fotografia, formas e texto na mesma composição, com luz e sombras coerentes.\n· Espaço livre suficiente para o texto e para o logótipo.\n· Fidelidade aos produtos e às informações fornecidas.\n· Nenhuma palavra fora da lista de texto acima.\n· Sem marcas de água, sem assinaturas, sem molduras à volta da arte.\n· No design — fundo, formas, texto, botão e realces — usa SÓ as cores da marca acima e o tom claro ou escuro que o texto precisar. Não introduzas outra cor no design.\n· Respeita o tom exacto de cada cor: um creme não é amarelo, um azul-marinho não é azul vivo.\n· Não incluir: texto inventado, palavras sem sentido, letras deformadas, marcas de água, logótipos de outras empresas, molduras decorativas à volta da arte, aspecto de banco de imagens genérico, amostras de cor, paletas de cor, códigos hexadecimais, etiquetas como \"primary\" ou \"secondary\", barras de cor no topo ou no fundo, faixas decorativas a delimitar o enquadramento, aspecto de apresentação de identidade visual, a palavra \"logo\", marcadores de posição, texto de exemplo, elementos cortados pela aresta da imagem, conteúdo encostado à borda sem margem, cores fora da paleta da marca no texto e nos realces, amarelo saturado quando a cor da marca é creme, arte partida em duas metades sem ligação entre elas, caixas cinzentas genéricas por trás do texto, enfeites soltos sem função, aspecto de modelo de apresentação, logótipo espelhado, invertido ou em perspectiva, logótipo redesenhado ou simplificado, logótipo com cores alteradas, o nome da empresa escrito por baixo ou ao lado do logótipo, logótipo sobreposto ao título ou a outro texto, logótipo cortado pela margem, logótipo a tocar no limite da imagem, dois logótipos na mesma arte, cartaz só de texto, fundo de cor lisa sem imagem, arte sem imagem protagonista, fotografia dessaturada ou a preto e branco, arte inteira em tons de cinzento, contactos cortados pela aresta, contactos em letra minúscula ilegível, contactos empilhados por cima ou por baixo do logótipo, preços inventados, valores em dólares, euros ou outra moeda estrangeira, texto pequeno inventado dentro de ecrãs, elementos copiados dos exemplos de acabamento (a bandeja, a tampa, as luvas, os cartões, os jogos, as marcas, as luzes azuis, as posições, o tabuleiro, o jogo do galo, a mão, as formas geométricas das peças, a quantidade de peças, as marcas de serviços de streaming, as posições dos elementos, as mãos, as peças de puzzle, as bandeiras, o mapa, os países, qualquer afirmação de parceria)."
+}

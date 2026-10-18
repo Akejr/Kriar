@@ -1,0 +1,99 @@
+{
+  "fornecedor": "openrouter:openai/gpt-5.4",
+  "estilo": "elegante",
+  "textos": {
+    "headline": "Chegou o novo perfume Kianda",
+    "subheadline": "Noite de Luanda, uma fragrância de autor.",
+    "cta": "Descobre já"
+  },
+  "revisao": "Editado na revisão, como faria o cliente: o texto de apoio repetia o website, que já vai nos contactos; a disposição é a do esboço da secção (logótipo em cima à esquerda, título no topo, o frasco ao centro, o botão e o website por baixo) e vai desenhada e por palavras (`SKETCH` no script), por isso a composição livre da proposta saiu e a cena ficou com o frasco ao centro.",
+  "logotipo": { "tamanho": "pequeno", "posicao": "superior-esquerdo" },
+  "direccao": {
+    "id": "dir_3f2t6d1t1i6m1c4z14",
+    "idea": "O perfume é apresentado como o clima sofisticado de uma noite em Luanda.",
+    "approach": "cena-conceptual",
+    "scene": "O frasco real do Noite de Luanda aparece em primeiro plano sobre uma superfície espelhada escura, com reflexo contido. Ao fundo, formas abstractas inspiradas na linha costeira e nas luzes difusas da cidade criam uma noite elegante sem mostrar uma paisagem literal. Uma faixa de tecido creme cruza o lado inferior e conduz o olhar até ao produto. A câmara está ligeiramente aproximada, com o frasco ao centro. A luz principal vem de trás e de lado para acender a tampa e o contorno do vidro, enquanto pequenos reflexos quentes sugerem luz urbana distante.",
+    "focus": "O frasco inserido num ambiente que evoca a noite de Luanda",
+    "hierarchy": "Frasco, headline, subtítulo e website",
+    "composition": "",
+    "lighting": "Luz mais dramática mas controlada, com recorte quente e reflexos nocturnos discretos.",
+    "materials": "Superfície espelhada escura, tecido mate-creme, vidro e metal do frasco, fundos desfocados luminosos.",
+    "brandApplication": "A cor de base segue o azul escuro da marca para reforçar a noite, o creme equilibra a sofisticação e o laranja médio entra nos pequenos pontos de destaque. A tipografia mantém-se elegante e limpa para não competir com a cena.",
+    "rationale": "Liga o nome do perfume a uma atmosfera memorável e própria da marca.",
+    "graphics": "A fotografia do produto assenta integrada numa cena inteira, com o texto pousado numa área calma do fundo. Um arco subtil na cor de realce nasce por trás do frasco e conduz o olhar até ao bloco de texto. O CTA aparece dentro de uma pequena faixa creme para se destacar sem pesar.",
+    "layout": "texto-direita",
+    "subject": "cena",
+    "techniques": [
+      "metafora-visual",
+      "movimento-implicito",
+      "profundidade-por-sobreposicao",
+      "iluminacao-dramatica"
+    ],
+    "textDensity": "baixa",
+    "elementDensity": "media"
+  },
+  "referencias": [
+    {
+      "referenceId": "ref7",
+      "take": [
+        "conceito visual ligado à mensagem",
+        "integração entre objectos",
+        "materiais realistas",
+        "sombras e iluminação coerentes"
+      ],
+      "doNotTransfer": [
+        "a bandeja",
+        "a tampa",
+        "as luvas",
+        "os cartões",
+        "os jogos",
+        "as marcas",
+        "as luzes azuis",
+        "as posições"
+      ],
+      "mode": "imagem",
+      "why": "18 pontos — técnicas da ideia: metafora visual, movimento implicito, profundidade por sobreposicao, iluminacao dramatica; mesmo protagonista (cena)"
+    },
+    {
+      "referenceId": "ref2",
+      "take": [
+        "ligação entre a mensagem e uma metáfora",
+        "um ponto de atenção reconhecível",
+        "espaço livre para texto",
+        "materiais e sombras coerentes"
+      ],
+      "doNotTransfer": [
+        "o tabuleiro",
+        "o jogo do galo",
+        "a mão",
+        "as formas geométricas das peças",
+        "a quantidade de peças",
+        "as marcas de serviços de streaming",
+        "as posições dos elementos"
+      ],
+      "mode": "descricao",
+      "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, profundidade por sobreposicao; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+    },
+    {
+      "referenceId": "ref6",
+      "take": [
+        "uma ideia central fácil de reconhecer",
+        "poucos elementos principais",
+        "equilíbrio entre dois participantes",
+        "luz a reforçar o ponto de ligação"
+      ],
+      "doNotTransfer": [
+        "as mãos",
+        "as peças de puzzle",
+        "as bandeiras",
+        "o mapa",
+        "os países",
+        "as marcas",
+        "qualquer afirmação de parceria"
+      ],
+      "mode": "imagem",
+      "why": "15 pontos — estilo elegante; técnicas da ideia: metafora visual, iluminacao dramatica; mesmo protagonista (cena); complementa as anteriores com outras técnicas"
+    }
+  ],
+  "aviso": null
+}

@@ -1,0 +1,371 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Tokens da INTERFACE.
+
+   IMPORTANTE: estas cores pertencem exclusivamente ao painel da aplicação.
+   As artes criadas usam a paleta da empresa do cliente, resolvida em
+   `src/lib/composition/palette.ts`. Nenhum destes tokens é lido pelo motor
+   de composição — ver o comentário no topo desse ficheiro.
+
+   Notas sobre a escala de valores:
+   · O fundo é quase preto, com um resto mínimo de verde para não parecer
+     cinza de sistema.
+   · As superfícies sobem em passos pequenos mas visíveis. A profundidade vem
+     da diferença de valor entre superfícies, não de bordas carregadas.
+   · As bordas são deliberadamente discretas. Bordas visíveis em todos os
+     blocos achatam a composição e dão aspecto de formulário.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-ink-950: #050706;
+  --color-ink-900: #0a0d0b;
+  --color-ink-800: #0f1310;
+  --color-ink-700: #161b17;
+  --color-ink-600: #1e241f;
+
+  --color-line: #1a211c;
+  --color-line-strong: #28312a;
+
+  /*
+    O verde vem do logótipo (#BFF839, medido no ficheiro), não do briefing
+    inicial. Ter dois verdes ligeiramente diferentes entre a marca e a
+    interface lê-se como erro.
+  */
+  --color-neon: #bff839;
+  --color-neon-700: #a8e021;
+  --color-neon-900: #2f4010;
+
+  --color-fg: #f3f7f2;
+  --color-fg-muted: #9aa69c;
+  --color-fg-faint: #636d65;
+
+  --color-danger: #ff6b5e;
+  --color-danger-900: #2f1613;
+  --color-warn: #ffc24a;
+  --color-warn-900: #2e2411;
+  --color-info: #6fc3ff;
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    background-color: var(--color-ink-950);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-fg);
+    font-family: var(--font-ui-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-neon);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-neon) 28%, transparent);
+    color: var(--color-fg);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.02em;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a463c;
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  /* Apenas para quem lê com leitor de ecrã. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Padrão de tabuleiro, atrás de imagens com transparência. */
+  .bg-checker {
+    background-image:
+      linear-gradient(45deg, #151a16 25%, transparent 25%),
+      linear-gradient(-45deg, #151a16 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #151a16 75%),
+      linear-gradient(-45deg, transparent 75%, #151a16 75%);
+    background-size: 14px 14px;
+    background-position:
+      0 0,
+      0 7px,
+      7px -7px,
+      -7px 0;
+    background-color: #0d110e;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /*
+    Barra de rolagem verde, para o painel de criação.
+
+    Os pseudo-elementos `::-webkit-scrollbar` servem o Chrome, o Edge e o
+    Safari. As propriedades normalizadas só entram onde esses não existem
+    (Firefox): no Chrome, declarar `scrollbar-color` desliga os
+    pseudo-elementos, e a barra perdia a forma de cápsula do resto da
+    aplicação.
+  */
+  .scroll-neon::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scroll-neon::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-neon) 55%, transparent);
+    border: 2px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  .scroll-neon::-webkit-scrollbar-thumb:hover,
+  .scroll-neon::-webkit-scrollbar-thumb:active {
+    background: var(--color-neon);
+    background-clip: content-box;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    .scroll-neon {
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--color-neon) 60%, transparent) transparent;
+    }
+  }
+
+  /*
+    Véu radial atrás de texto sobre o campo de pontos. Mantém a leitura
+    confortável sem esconder a animação nas bordas.
+  */
+  .sonar-wash {
+    background: radial-gradient(
+      ellipse 46% 42% at 50% 46%,
+      var(--color-ink-950) 0%,
+      color-mix(in srgb, var(--color-ink-950) 82%, transparent) 46%,
+      transparent 100%
+    );
+  }
+
+  /* Halo discreto sob a acção principal. Usado com parcimónia. */
+  .glow-neon {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-neon) 30%, transparent),
+      0 8px 30px -10px color-mix(in srgb, var(--color-neon) 45%, transparent);
+  }
+
+  /* Linha de luz no topo de superfícies elevadas. Dá espessura sem borda. */
+  .edge-top {
+    box-shadow: inset 0 1px 0 0 color-mix(in srgb, #ffffff 6%, transparent);
+  }
+}
+
+@keyframes kriar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes kriar-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes kriar-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+  Entrada de um diálogo: cresce ligeiramente a partir do centro.
+
+  Subir 8 px de baixo, como o resto da interface, lia-se como "veio de
+  baixo" — num elemento centrado no ecrã, crescer do próprio centro é o que
+  diz "apareceu aqui".
+*/
+@keyframes kriar-dialog {
+  from {
+    opacity: 0;
+    transform: scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+  Barra de progresso indeterminada da barra de navegação.
+
+  Aparece enquanto a rota seguinte está a carregar. Sem ela o destaque só
+  mudava quando a página nova acabava de renderizar, e qualquer espera dava a
+  sensação de que o clique se perdeu.
+*/
+@keyframes kriar-slide {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(320%);
+  }
+}
+
+/*
+  Edição por zonas.
+
+  O número de uma zona nova entra com um pequeno salto — diz "esta zona
+  existe agora" sem precisar de texto. O lápis do cursor oscila enquanto se
+  pinta, e a zona activa respira devagar para se distinguir das outras.
+*/
+/*
+  Só `scale`, nunca `transform`: o Tailwind v4 posiciona com a propriedade
+  `translate`, e um `transform` na animação somava-se a ela — o número
+  saltava para fora da zona durante a entrada.
+*/
+@keyframes kriar-pop {
+  0% {
+    opacity: 0;
+    scale: 0.4;
+  }
+  60% {
+    opacity: 1;
+    scale: 1.18;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes kriar-pencil {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-12deg) translateY(1px);
+  }
+}
+@keyframes kriar-zone-breathe {
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+/* O traço do convite "pinta por cima": desenha-se, pausa e recomeça. */
+@keyframes kriar-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  55%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* Quem pediu menos movimento recebe uma barra estática em vez de animação. */
+@media (prefers-reduced-motion: reduce) {
+  .kriar-progress {
+    animation: none !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+}
+
+/* Entrada escalonada dos blocos do compositor. */
+.rise {
+  animation: kriar-rise 0.5s var(--ease-out-soft) both;
+}
+.rise-1 {
+  animation-delay: 0.04s;
+}
+.rise-2 {
+  animation-delay: 0.1s;
+}
+.rise-3 {
+  animation-delay: 0.16s;
+}
+.rise-4 {
+  animation-delay: 0.22s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
