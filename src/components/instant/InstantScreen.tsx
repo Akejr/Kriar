@@ -4,18 +4,21 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Download, Gem, Pencil, RefreshCw, Sparkles } from 'lucide-react';
-import { resolveAssets } from '@/lib/data/assetCache';
+import { analyseLogoColors } from '@/lib/brand/extractColors';
 import { finishInputFrom } from '@/lib/composition/finishArtwork';
+import { resolveAssets } from '@/lib/data/assetCache';
 import { FORMATS, STYLES, getFormat, getStyle } from '@/lib/domain/catalog';
 import {
   applyInstantInput,
+  colorsFromLogo,
   instantInputFrom,
   instantProblems,
   type InstantBrandInput,
 } from '@/lib/domain/instant';
-import type { Account, Brand, FormatId, FormatSpec, StyleId } from '@/lib/domain/types';
+import type { Brand, FormatId, FormatSpec, StyleId } from '@/lib/domain/types';
 import { deriveAccent } from '@/lib/utils/color';
 import { LogoUploader } from '@/components/brand/LogoUploader';
+import { Attachments } from '@/components/editor/Attachments';
 import { StageLoader } from '@/components/editor/StageLoader';
 import { usePaintedArt } from '@/components/editor/usePaintedArt';
 import { ColorField } from '@/components/ui/ColorField';
@@ -37,17 +40,12 @@ import { useToast } from '@/components/ui/Toast';
 import { useEditor } from '@/store/editor';
 
 /**
- * Arte instantânea: uma arte na hora, sem passar pelo cadastro.
+ * Arte instantânea: uma arte na hora, sem cadastro e sem conta.
  *
  * ──────────────────────────────────────────────────────────────────────────
- * O caminho curto do produto. O cadastro completo decide uma identidade
- * visual e leva tempo; aqui o painel de criação pede o mínimo — nome,
- * logótipo, duas cores — e gera.
- *
- * Vive FORA de `(painel)` de propósito. A casca do painel exige uma marca
- * pronta e manda quem não a tem para `/onboarding` — exactamente o passo
- * que este ecrã existe para saltar. Fica ao lado de `/entrar` e
- * `/onboarding`, que têm o mesmo problema e a mesma solução.
+ * O caminho curto do produto. O painel de criação pede o essencial — nome,
+ * logótipo, duas cores — e o pedido, com os anexos que o cliente quiser, e
+ * gera.
  *
  * O que não se salta é a REVISÃO: ela acontece, só não pára para perguntar.
  * `preparePlan` propõe a ideia e os textos e `generateArtwork` gera a
@@ -55,11 +53,15 @@ import { useEditor } from '@/store/editor';
  * no editor e gera outra vez de lá — é a mesma publicação, com o mesmo
  * identificador.
  *
- * A marca é GRAVADA antes de gerar, e não mantida em memória. Três razões:
- * o projecto guarda `brandId` e um projecto a apontar para uma marca que
- * não existe não abre no editor; a arte é um ficheiro que tem de ficar na
- * conta de alguém; e a segunda arte deste cliente passa a ser ainda mais
- * rápida, porque os campos vêm preenchidos.
+ * O RASCUNHO ABRE NA MONTAGEM, e não no clique de gerar. É o que dá aos
+ * anexos um sítio onde viver: as imagens, o tipo de cada uma e a nota de
+ * cada uma pertencem à composição do projecto, exactamente como no editor.
+ * Um rascunho sem pedido e sem imagens não é gravado (`worthSaving`), por
+ * isso abrir a página não deixa lixo atrás.
+ *
+ * Nada aqui é uma segunda implementação: os anexos são o `Attachments` do
+ * editor, as cores do logótipo são o `analyseLogoColors` do cadastro, e a
+ * geração é a do editor, pela store.
  * ──────────────────────────────────────────────────────────────────────────
  */
 
@@ -67,22 +69,31 @@ import { useEditor } from '@/store/editor';
 const MIN_BRIEF = 12;
 
 export function InstantScreen({
-  account,
-  brand,
+  accountId,
+  baseBrand,
   onSaveBrand,
+  authed,
 }: {
-  account: Account;
-  brand: Brand;
-  /** Grava a marca na sessão e devolve-a como ficou gravada. */
-  onSaveBrand: (next: Brand) => Promise<Brand>;
+  accountId: string;
+  baseBrand: Brand;
+  /** Grava a marca na sessão. `null` sem conta — aí não há onde gravar. */
+  onSaveBrand: ((next: Brand) => Promise<Brand>) | null;
+  authed: boolean;
 }) {
   const router = useRouter();
   const { show } = useToast();
 
   const startDraft = useEditor((state) => state.startDraft);
+  const setBrandInStore = useEditor((state) => state.setBrand);
   const setBrief = useEditor((state) => state.setBrief);
+  const setColors = useEditor((state) => state.setColors);
   const setFormatInStore = useEditor((state) => state.setFormat);
   const setStyleInStore = useEditor((state) => state.setStyle);
+  const addImages = useEditor((state) => state.addImages);
+  const removeImage = useEditor((state) => state.removeImage);
+  const setMainImage = useEditor((state) => state.setMainImage);
+  const setImageNote = useEditor((state) => state.setImageNote);
+  const setImageKind = useEditor((state) => state.setImageKind);
   const preparePlan = useEditor((state) => state.preparePlan);
   const generateArtwork = useEditor((state) => state.generateArtwork);
   const exportArt = useEditor((state) => state.exportArt);
@@ -90,11 +101,12 @@ export function InstantScreen({
   const project = useEditor((state) => state.project);
   const editorBrand = useEditor((state) => state.brand);
   const assets = useEditor((state) => state.assets);
+  const uploading = useEditor((state) => state.uploading);
   const phase = useEditor((state) => state.phase);
   const exporting = useEditor((state) => state.exporting);
   const notice = useEditor((state) => state.notice);
 
-  const [input, setInput] = React.useState<InstantBrandInput>(() => instantInputFrom(brand));
+  const [input, setInput] = React.useState<InstantBrandInput>(() => instantInputFrom(baseBrand));
   const [brief, setBriefText] = React.useState('');
   const [format, setFormat] = React.useState<FormatId>('vertical');
   const [style, setStyle] = React.useState<StyleId>('auto');
@@ -102,10 +114,29 @@ export function InstantScreen({
   const [error, setError] = React.useState<string | null>(null);
   const [done, setDone] = React.useState(false);
   const [leaving, setLeaving] = React.useState(false);
+  /** De onde vieram as cores que estão nos campos. */
+  const [colorSource, setColorSource] = React.useState<string | null>(null);
+  /** As cores lidas do logótipo, oferecidas nos dois campos. */
+  const [suggestions, setSuggestions] = React.useState<Array<{ hex: string; note?: string }>>([]);
+  const [readingLogo, setReadingLogo] = React.useState(false);
+
+  /*
+    O rascunho abre uma vez, na montagem.
+
+    A marca que entra aqui é a de partida; a versão com o que o cliente
+    escreveu é aplicada ao gerar (`setBrand` + `setColors`). O que importa é
+    que a composição exista desde o início, para os anexos terem onde ficar.
+  */
+  React.useEffect(() => {
+    startDraft(accountId, baseBrand);
+    // Só na montagem: `startDraft` recomeça o projecto, e recomeçá-lo a cada
+    // alteração da marca deitava fora os anexos já carregados.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const problems = instantProblems(input);
   const briefShort = brief.trim().length < MIN_BRIEF;
-  const blocked = problems.length > 0 || briefShort;
+  const blocked = problems.length > 0 || briefShort || uploading > 0;
 
   const finishInput = React.useMemo(
     () =>
@@ -117,12 +148,65 @@ export function InstantScreen({
   const painted = usePaintedArt(finishInput);
 
   /**
+   * As cores da marca, lidas do ficheiro do logótipo.
+   *
+   * É a mesma leitura do cadastro (`analyseLogoColors`). Corre no browser,
+   * é instantânea e não custa nada — e resolve a pergunta que mais trava
+   * quem está a começar: "quais são as minhas cores?".
+   */
+  async function readLogoColors(file: File) {
+    setReadingLogo(true);
+    try {
+      const analysis = await analyseLogoColors(file).catch(() => null);
+      if (!analysis) return;
+
+      /*
+        Só as cores com PESO entram como sugestão.
+
+        A extracção devolve quatro, e num logótipo de duas cores as duas
+        últimas são as misturas da aresta entre elas — `#745D42` a 1% e
+        `#A0743E` a 0% num logótipo azul-marinho com âmbar. Oferecê-las
+        punha oito pastilhas debaixo de dois campos, metade delas cores que
+        não existem na marca.
+      */
+      setSuggestions(
+        analysis.colors
+          .filter((color) => color.share >= 0.08)
+          .slice(0, 3)
+          .map((color) => ({
+            hex: color.hex,
+            note: `${Math.round(color.share * 100)}% dos píxeis com cor`,
+          })),
+      );
+
+      const read = colorsFromLogo(analysis);
+      if (!read) {
+        setColorSource('Não conseguimos ler as cores deste ficheiro. Escreve-as à mão.');
+        return;
+      }
+      setInput((current) => ({
+        ...current,
+        // A terceira cor nunca vem do logótipo: é escolha do cliente.
+        colors: { primary: read.primary, secondary: read.secondary, accent: current.colors.accent },
+      }));
+      setColorSource(
+        analysis.colors.length >= 2
+          ? 'Lidas do teu logótipo. Muda-as se não forem estas.'
+          : analysis.colors.length === 1
+            ? 'A principal é a do teu logótipo; a segunda é o par que lhe dá contraste.'
+            : 'O teu logótipo é de uma cor só. A segunda é o par que lhe dá contraste.',
+      );
+    } finally {
+      setReadingLogo(false);
+    }
+  }
+
+  /**
    * Os ficheiros da marca, no editor, ANTES de gerar.
    *
-   * `startDraft` manda-os resolver e não espera. No editor isso não se nota
-   * — entre abrir o ecrã e carregar em gerar passam minutos —, mas aqui as
-   * duas coisas acontecem no mesmo clique, e uma arte gerada antes de o
-   * logótipo estar resolvido sai sem logótipo nenhum.
+   * `startDraft` manda-os resolver e não espera, e o logótipo é carregado
+   * depois disso — uma arte gerada antes de ele estar resolvido sai sem
+   * logótipo nenhum.
    */
   async function ensureBrandAssets(next: Brand) {
     const ids = [
@@ -141,11 +225,17 @@ export function InstantScreen({
     setWorking(true);
     setError(null);
     try {
-      const saved = await onSaveBrand(applyInstantInput(brand, input));
+      const next = applyInstantInput(baseBrand, input);
+      // Com conta, a marca fica gravada para a próxima arte não a pedir
+      // outra vez. Sem conta, vive só nesta sessão.
+      const brand = onSaveBrand ? await onSaveBrand(next) : next;
 
-      startDraft(account.id, saved);
-      await ensureBrandAssets(saved);
+      setBrandInStore(brand);
+      await ensureBrandAssets(brand);
       setBrief(brief.trim());
+      // A composição foi semeada com as cores da marca de partida; estas são
+      // as que o cliente acabou de confirmar.
+      setColors(brand.identity.colors);
       setFormatInStore(format);
       setStyleInStore(style);
 
@@ -212,10 +302,10 @@ export function InstantScreen({
         <p className="text-[12.5px] text-fg">Arte instantânea</p>
         <div className="ml-auto flex items-center gap-2">
           <Link
-            href="/inicio"
+            href={authed ? '/inicio' : '/entrar'}
             className="rounded-[8px] px-2 py-1 text-[12.5px] text-fg-muted transition-colors hover:text-fg"
           >
-            Ir para o painel
+            {authed ? 'Ir para o painel' : 'Entrar'}
           </Link>
         </div>
       </header>
@@ -228,6 +318,7 @@ export function InstantScreen({
             notice={notice}
             exporting={exporting}
             leaving={leaving}
+            authed={authed}
             onExport={() => void exportArt()}
             onEdit={() => void openInEditor()}
             onAgain={() => {
@@ -280,7 +371,7 @@ export function InstantScreen({
                       <span className="text-[11px] font-normal text-fg-faint">opcional</span>
                     </p>
                     <LogoUploader
-                      accountId={account.id}
+                      accountId={accountId}
                       assetId={input.logoAssetId}
                       kind="logo"
                       title="Logótipo da empresa"
@@ -288,7 +379,14 @@ export function InstantScreen({
                       onChange={(logoAssetId) =>
                         setInput((current) => ({ ...current, logoAssetId }))
                       }
+                      // As cores da marca saem do ficheiro, não de um palpite.
+                      onFileSelected={(file) => void readLogoColors(file)}
                     />
+                    {readingLogo ? (
+                      <div className="mt-2">
+                        <Spinner label="A ler as cores do logótipo…" />
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -296,6 +394,7 @@ export function InstantScreen({
                       label="Cor principal"
                       id="instantanea-cor-1"
                       value={input.colors.primary}
+                      suggestions={suggestions}
                       onChange={(primary) =>
                         setInput((current) => ({
                           ...current,
@@ -307,6 +406,7 @@ export function InstantScreen({
                       label="Cor secundária"
                       id="instantanea-cor-2"
                       value={input.colors.secondary}
+                      suggestions={suggestions}
                       onChange={(secondary) =>
                         setInput((current) => ({
                           ...current,
@@ -316,6 +416,18 @@ export function InstantScreen({
                     />
                   </div>
 
+                  {colorSource ? (
+                    <p className="-mt-1 text-[11.5px] leading-relaxed text-fg-faint">
+                      {colorSource}
+                    </p>
+                  ) : null}
+
+                  {/*
+                    A terceira cor começa SEMPRE vazia, e é o cliente que a
+                    põe. A maior parte das marcas tem duas cores; uma
+                    terceira preenchida por nós entrava na arte como realce
+                    sem ninguém a ter escolhido.
+                  */}
                   <div>
                     <ColorField
                       label="Cor de realce"
@@ -397,9 +509,46 @@ export function InstantScreen({
                       maxLength={1200}
                       onChange={(event) => setBriefText(event.target.value)}
                       placeholder="Ex.: promoção de fim de semana nos difusores de ambiente a 7.500 Kz, com entrega em Luanda"
-                      className="min-h-32"
+                      className="min-h-28"
                     />
                   </Field>
+
+                  {/*
+                    Os anexos são os MESMOS do editor: o tipo de cada imagem
+                    (foto ou produto, captura de ecrã, arte para recriar) e
+                    uma nota por imagem a dizer o que fazer com ela.
+
+                    Vivem na composição do rascunho, aberto na montagem — é
+                    por isso que esta tela abre um projecto antes de haver
+                    qualquer pedido.
+                  */}
+                  <div>
+                    <p className="mb-1.5 text-[13px] font-medium text-fg">
+                      Anexos{' '}
+                      <span className="text-[11px] font-normal text-fg-faint">opcional</span>
+                    </p>
+                    {project ? (
+                      <Attachments
+                        images={project.composition.images}
+                        mainImageIndex={project.composition.mainImageIndex}
+                        assets={assets}
+                        uploading={uploading}
+                        onAdd={(files) => {
+                          void addImages(files).then((result) => {
+                            if (!result.ok && result.errors?.[0]) {
+                              show({ tone: 'erro', message: result.errors[0] });
+                            }
+                          });
+                        }}
+                        onRemove={removeImage}
+                        onSetMain={setMainImage}
+                        onNoteChange={setImageNote}
+                        onKindChange={setImageKind}
+                      />
+                    ) : (
+                      <Spinner label="A preparar…" />
+                    )}
+                  </div>
 
                   <Field label="Formato" htmlFor="instantanea-formato">
                     <Select
@@ -458,7 +607,9 @@ export function InstantScreen({
                   ? problems[0]
                   : briefShort
                     ? 'Escreve o que queres comunicar — umas palavras chegam.'
-                    : 'Leva cerca de dois minutos. A arte é verificada antes de ta mostrarmos.'}
+                    : uploading > 0
+                      ? 'A carregar os anexos…'
+                      : 'Leva cerca de dois minutos. A arte é verificada antes de ta mostrarmos.'}
               </p>
 
               <Link
@@ -468,13 +619,6 @@ export function InstantScreen({
                 Prefiro fazer o cadastro completo
               </Link>
             </div>
-
-            <Callout tone="info" className="mt-5">
-              Isto guarda a empresa e as cores na tua conta, para a próxima arte não as pedir
-              outra vez. A identidade completa — tipografia, regras de composição e referências —
-              fica a aguardar na área <strong>Marca</strong>, e é ela que mantém as publicações
-              coerentes entre si.
-            </Callout>
           </>
         )}
       </main>
@@ -491,6 +635,7 @@ function Result({
   notice,
   exporting,
   leaving,
+  authed,
   onExport,
   onEdit,
   onAgain,
@@ -500,6 +645,7 @@ function Result({
   notice: string | null;
   exporting: boolean;
   leaving: boolean;
+  authed: boolean;
   onExport: () => void;
   onEdit: () => void;
   onAgain: () => void;
@@ -511,8 +657,10 @@ function Result({
         A tua arte está pronta
       </h1>
       <p className="mt-1.5 max-w-xl text-center text-[13.5px] leading-relaxed text-fg-muted">
-        Descarrega-a já, ou abre-a no editor para mudar o título, o sítio do logótipo e os
-        contactos — e gerar outra versão.
+        Descarrega-a já.{' '}
+        {authed
+          ? 'Ou abre-a no editor para mudar o título, o sítio do logótipo e os contactos.'
+          : 'Com conta, podes abri-la no editor e afinar o título, o logótipo e os contactos.'}
       </p>
 
       <div className="mt-6 w-full max-w-[26rem]">
@@ -557,10 +705,17 @@ function Result({
           <Download className="size-4" aria-hidden />
           Descarregar PNG
         </Button>
-        <Button variant="outline" size="lg" loading={leaving} onClick={onEdit}>
-          Abrir no editor
-          <ArrowRight className="size-4" aria-hidden />
-        </Button>
+        {/*
+          O editor vive no painel, que exige sessão. Sem conta, o botão
+          mandaria o visitante para o ecrã de entrada e a arte ficava para
+          trás — melhor não o mostrar.
+        */}
+        {authed ? (
+          <Button variant="outline" size="lg" loading={leaving} onClick={onEdit}>
+            Abrir no editor
+            <ArrowRight className="size-4" aria-hidden />
+          </Button>
+        ) : null}
         <Button variant="ghost" size="lg" onClick={onAgain}>
           <RefreshCw className="size-4" aria-hidden />
           Fazer outra

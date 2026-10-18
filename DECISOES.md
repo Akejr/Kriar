@@ -3172,3 +3172,128 @@ Uma nota sobre a prova em si: a primeira versão dela falhava em silêncio
 porque clicava no botão assim que ele existia no DOM. O HTML do servidor já
 o traz, e um clique antes de o React ligar os manipuladores não faz nada.
 As provas passaram a esperar que o botão tenha um `onClick` ligado.
+
+## 65. A arte instantânea sem conta, com anexos e cores lidas do logótipo
+
+Cinco correcções ao ecrã do lote 64, todas pedidas depois de o ver a
+funcionar:
+
+> "Não adicione conta por enquanto, pode tirar. Quando adicionei o logo que
+> tem duas cores, ela não identificou a principal e secundária. A terceira
+> deixe sempre removida, a pessoa que escolhe se quer. Este aviso pode
+> remover."
+
+> "Nessa tela instant a pessoa também não consegue enviar referências de
+> imagem. Imagens que ela quer replicar a arte, imagem de produtos que ela
+> quer adicionar, etc. Toda imagem que ela meter, aparece uma caixa para ela
+> explicar o que quer com a imagem."
+
+### Sem conta
+
+O ecrã deixou de exigir sessão. Quem chega preenche e gera.
+
+Um projecto e um ficheiro precisam de um `accountId` — é obrigatório no
+`UploadInput` e no `Project` —, e o armazenamento local nunca o valida:
+filtra por igualdade de texto e mais nada. Daí `ANON_ACCOUNT_ID`, um
+identificador fixo (`'anonimo'`) que é só o nome da gaveta onde o trabalho
+anónimo assenta. Não é uma conta: não tem sessão, não tem palavra-passe,
+não aparece em parte nenhuma da aplicação e não sobrevive a outro browser.
+Fixo, e não um por visita, para não deixar uma conta órfã no IndexedDB a
+cada vez que alguém abre a página.
+
+A excepção está declarada e é verificada antes de começar: no Supabase as
+escritas exigem utilizador autenticado (`requireUserId`, mais as políticas
+RLS), e sem sessão o anexo e a gravação da arte falhariam DEPOIS de a
+geração estar paga. Nessa configuração — e só nessa — o ecrã pede conta à
+entrada, em vez de falhar a meio.
+
+A chamada da página pública passou a apontar directamente para cá, sem
+passar pelo cadastro: `useStartTarget` devolve `/instantanea` para quem não
+tem sessão.
+
+Com sessão, nada disto muda: a empresa activa entra pré-preenchida e a
+marca é gravada ao gerar. O botão "Abrir no editor" só aparece com conta —
+o editor vive no painel, que exige sessão, e sem ela o botão mandava o
+visitante para o ecrã de entrada deixando a arte para trás.
+
+### As cores saem do logótipo
+
+Era o defeito mais visível: um logótipo com duas cores entrava e os campos
+ficavam com o que lá estava — no caso relatado, um quase-preto como "cor
+principal".
+
+A leitura já existia, no cadastro: `analyseLogoColors`, em
+`src/lib/brand/extractColors.ts`. Passou a correr também aqui, no
+`onFileSelected` do `LogoUploader`. `colorsFromLogo` traduz a análise nas
+duas cores, com três casos:
+
+- DUAS cores ou mais → são as duas da marca, pela ordem de frequência;
+- UMA cor → é a principal, e a segunda deriva-se do tom (`complementFor`):
+  um logótipo escuro pede branco, um claro pede um preto suave. Não se
+  inventa uma segunda cor que não está no ficheiro;
+- NENHUMA cor com saturação, mas legível → o logótipo é monocromático. A
+  cor dele é o preto (ou o branco) que lá está, e dizer "não conseguimos
+  ler" sobre isso seria falso.
+
+As cores lidas ficam também como pastilhas clicáveis nos dois campos, para
+se trocar qual é a principal. Só as que têm PESO: a extracção devolve
+quatro, e num logótipo de duas cores as duas últimas são as misturas da
+aresta entre elas — `#745D42` a 1% e `#A0743E` a 0% num logótipo
+azul-marinho com âmbar. Filtradas a 8% e cortadas a três, senão eram oito
+pastilhas debaixo de dois campos, metade delas cores que não existem na
+marca.
+
+Uma linha por baixo diz de onde vieram, porque uma cor que aparece sozinha
+num campo sem explicação parece um defeito.
+
+### A terceira cor começa sempre vazia
+
+`instantInputFrom` deixou de copiar o realce da marca. A maior parte das
+empresas tem duas cores, e uma terceira já preenchida era a aplicação a
+decidir por elas — depois entrava na arte como realce sem ninguém a ter
+escolhido. Quem a quer, carrega em "propor uma a partir das duas" ou
+escreve-a. A leitura do logótipo também nunca a preenche.
+
+### Anexos, com tipo e nota por imagem
+
+É o `Attachments` do editor, tal e qual: o tipo de cada imagem — foto ou
+produto, captura de ecrã, arte para recriar — e uma caixa por imagem a
+dizer o que fazer com ela, com o texto de ajuda a mudar com o tipo ("o que
+queres com esta foto?", "o que manter desta arte?"). Uma arte marcada para
+recriar traz o aviso de sempre: fazemos uma assim para a tua marca, sem
+copiar o logótipo, o nome, as pessoas nem as fotografias da outra empresa.
+
+Isto obrigou a uma mudança de estrutura: o RASCUNHO ABRE NA MONTAGEM, e não
+no clique de gerar. Os anexos vivem na composição do projecto
+(`composition.images`), como no editor, e sem projecto não há onde os pôr.
+Um rascunho sem pedido e sem imagens não é gravado (`worthSaving`), por isso
+abrir a página não deixa lixo atrás.
+
+Como o rascunho passou a ser aberto antes de a marca estar preenchida, o
+gerar aplica-a em dois passos: `setBrand` para a marca e `setColors` para a
+composição — que foi semeada com as cores da marca de partida e tem de
+receber as que o cliente confirmou.
+
+### O aviso saiu
+
+O bloco que explicava que a empresa e as cores ficavam guardadas na conta.
+Sem conta, era falso.
+
+### Verificação
+
+`tsc`, `eslint` e `npm run build` limpos.
+
+Prova no browser a 1440 e a 390 px, sem sessão e com as rotas de IA
+interceptadas — nenhum crédito gasto:
+
+- a página abre o formulário directamente, sem login, com "Entrar" na barra
+  em vez de "Ir para o painel";
+- um logótipo gerado com azul-marinho `#152A4A` e âmbar `#C98A3C` devolve
+  exactamente essas duas cores nos campos, com a linha "lidas do teu
+  logótipo" e duas pastilhas por campo;
+- a terceira cor fica vazia e o "propor uma a partir das duas" à vista;
+- dois anexos entram, o segundo muda para "arte para recriar", o texto de
+  ajuda da nota acompanha o tipo e o aviso de recriação aparece;
+- o botão de gerar está travado sem nome e sem pedido, e abre com os dois;
+- a rota bloqueada mostra o erro, liberta o botão e não perde os anexos;
+- sem transbordo horizontal e sem erros na consola.

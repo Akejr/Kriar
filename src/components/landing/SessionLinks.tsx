@@ -36,7 +36,8 @@ import { buttonClass } from './ui';
  */
 export function useStartTarget(): { href: string; authed: boolean } {
   const { status, brand } = useSession();
-  if (status !== 'authed') return { href: '/criar-conta', authed: false };
+  // Sem sessão, a arte instantânea: não pede cadastro nem conta.
+  if (status !== 'authed') return { href: '/instantanea', authed: false };
   return { href: isBrandReady(brand) ? '/inicio' : '/instantanea', authed: true };
 }
 
